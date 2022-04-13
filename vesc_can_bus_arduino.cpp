@@ -35,6 +35,7 @@ void CAN::spin() {
     inpVoltage = hex2int(receivedByte) * 0.1;
   }
 
+  // print_raw_can_data()  // uncomment to see raw can messages
 }
 
 void CAN::print_raw_can_data() {
@@ -66,12 +67,7 @@ float CAN::process_data_frame_vesc(char datatype, unsigned char byte1, unsigned 
 
 int CAN::hex2int(char buf[])
 {
-  //  if (size(buf) == 2){
   return (short) strtol(buf, NULL, 16);
-  //  }
-  //  if (size(buf) == 4){
-  //    return (int) strtol(buf, NULL, 16);
-  //  }
 }
 
 void CAN::vesc_set_duty(float duty) {
@@ -85,13 +81,7 @@ void CAN::vesc_set_duty(float duty) {
 }
 
 void CAN::vesc_set_current(float current) {
-  uint32_t set_value;
-  if (AVG_CADENCE < -20 && motor_estop == false) {//AVG_TORQUE > 0.05 &&
-    set_value = current * 1000 * ASSISTANCE_TORQUE_MULTIPLIER;
-  }
-  else {
-    set_value = 0;
-  }
+  uint32_t set_value = current * 1000;
   uint8_t buffer[4];
   buffer[0] = (set_value >> 24) & 0xFF;
   buffer[1] = (set_value >> 16) & 0xFF;
