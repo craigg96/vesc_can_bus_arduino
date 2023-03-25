@@ -38,3 +38,6 @@ DEPENDENCIES
 
 * https://github.com/coryjfowler/MCP_CAN_lib
 
+LICENSE
+
+MIT - https://opensource.org/license/mit/
