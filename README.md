@@ -28,6 +28,8 @@ VESC ID = 10
 CAN STATUS_MESSAGE_MODE = CAN_STATUS_1_2_3_4_5
 CAN Baud Rate = CAN_BAUD_250K
 
+Place the .h and .cpp file in the same folder as the .ino file to use this library with no changes.
+
 # Credits
 
 * Craig Gault - https://github.com/craigg96
