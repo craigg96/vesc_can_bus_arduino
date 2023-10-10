@@ -25,6 +25,14 @@ void CAN::spin() {
 
     //need to add in the rpm conversion function for 4 byte values
   }
+  if (rxId == 0x80000F0A) {
+    unsigned char WHvals[4];
+    WHvals[0] = rxBuf[3];
+    WHvals[1] = rxBuf[2];
+    WHvals[2] = rxBuf[1];
+    WHvals[3] = rxBuf[0];
+    WattHours = *(long *)WHvals;
+  }
   if (rxId == 0x8000100A) { //
     tempFET = process_data_frame_vesc('F', rxBuf[0], rxBuf[1]);
     tempMotor = process_data_frame_vesc('T', rxBuf[2], rxBuf[3]);
