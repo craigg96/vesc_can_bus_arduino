@@ -15,6 +15,7 @@ The MCP2515 is the most common way to integrate can bus onto the arduino platfor
 |  avgMotorCurrent  |
 |      tempFET      |
 |     tempMotor     |
+|     WattHours     |
 
 ## Command Messages
 |     Parameter     |
