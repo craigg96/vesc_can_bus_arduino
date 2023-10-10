@@ -14,7 +14,7 @@ char msgString[128];// Array to store serial string
 
 
 float inpVoltage, dutyCycleNow, avgInputCurrent, avgMotorCurrent, tempFET, tempMotor;
-long erpm;
+long erpmm, WattHours;
 
 
 void initialize();
