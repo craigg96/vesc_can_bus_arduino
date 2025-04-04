@@ -10,7 +10,7 @@ VescCAN llanta1(CAN0, 0x0A);    // ID 10
 VescCAN llanta2(CAN0, 0x0B);    // ID 11
 //VescCAN llanta3(CAN0, 0x0C);
 //VescCAN llanta4(CAN0, 0x0D);
-VescCAN* llantas[] = {&llanta1, &llanta2}; //&llanta3, &llanta4};
+VescCAN* llantas[] = {&llanta1, &llanta2}; // &llanta3, &llanta4};
 const int numLlantas = 2;
 
 void setup()
