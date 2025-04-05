@@ -5,6 +5,8 @@
 This repo contains the CAN bus protocol for VESC that can be used with arduino and the MCP2515 driver library by Cory Fowler (see credits).
 The MCP2515 is the most common way to integrate can bus onto the arduino platform. The VESC platform is the gold standard for brushless motor control for skateboards and ebikes. This library allows you to use the can bus instead of UART (see solidgeek vescuart library) to communicate with the VESC which is more reliable and allows the single UART port on most arduinos to be free for debugging.  
 
+Checkout the "multiple vescs" branch by Sesgaro to control two vescs independently (UNTESTED).
+
 ## Realtime Data Messages
 |     Parameter     |
 |:-----------------:|
@@ -34,6 +36,7 @@ Place the .h and .cpp file in the same folder as the .ino file to use this libra
 # Credits
 
 * Craig Gault - https://github.com/craigg96
+* Sesgaro - https://github.com/Sesgaro
 
 DEPENDENCIES
 
