@@ -34,6 +34,7 @@ Place the .h and .cpp file in the same folder as the .ino file to use this libra
 # Credits
 
 * Craig Gault - https://github.com/craigg96
+* Sesgaro - https://github.com/Sesgaro
 
 DEPENDENCIES
 
