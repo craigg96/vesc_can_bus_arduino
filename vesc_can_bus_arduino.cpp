@@ -17,10 +17,10 @@ VescCAN::VescCAN(MCP_CAN& can, uint8_t devId) : CAN0(can), deviceId(devId) {
 void VescCAN::spin() {
     get_frame();
 
-    uint32_t dutyCycleId = 0x80000900 | deviceId;
-    uint32_t wattHoursId = 0x80000F00 | deviceId;
-    uint32_t tempId = 0x80001000 | deviceId;
-    uint32_t voltageId = 0x80001B00 | deviceId;
+    uint32_t dutyCycleId = 0x80000900 | (deviceId & 0xFF);
+    uint32_t wattHoursId = 0x80000F00 | (deviceId & 0xFF);
+    uint32_t tempId = 0x80001000      | (deviceId & 0xFF);
+    uint32_t voltageId = 0x80001B00   | (deviceId & 0xFF);
 
     if (rxId == dutyCycleId) {
         dutyCycleNow = process_data_frame_vesc('D', rxBuf[6], rxBuf[7]);
@@ -35,7 +35,7 @@ void VescCAN::spin() {
         tempMotor = process_data_frame_vesc('T', rxBuf[2], rxBuf[3]);
         avgInputCurrent = process_data_frame_vesc('I', rxBuf[4], rxBuf[5]);
         if (tempMotor > 100.0) {
-            Serial.println("Advertencia: Temperatura del motor demasiado alta o sensor no conectado.");
+            Serial.println("Warning: Motor temperature too high or sensor not connected.");
         }
     }
     if (rxId == voltageId) {

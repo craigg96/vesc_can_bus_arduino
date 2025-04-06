@@ -6,12 +6,12 @@ MCP_CAN CAN0(10); // CS pin
 bool print_realtime_data = true;
 long last_print_data;
 
-VescCAN llanta1(CAN0, 0x0A);    // ID 10
-VescCAN llanta2(CAN0, 0x0B);    // ID 11
-//VescCAN llanta3(CAN0, 0x0C);
-//VescCAN llanta4(CAN0, 0x0D);
-VescCAN* llantas[] = {&llanta1, &llanta2}; // &llanta3, &llanta4};
-const int numLlantas = 2;
+VescCAN driver1(CAN0, 10);    // ID 10
+VescCAN driver2(CAN0, 11);    // ID 11
+//VescCAN driver3(CAN0, 12);
+//VescCAN driver4(CAN0, 13);
+VescCAN* drivers[] = {&driver1, &driver2}; // &driver3, &driver4};
+const int numdrivers = 2;
 
 void setup()
 {
@@ -23,35 +23,35 @@ void setup()
 }
 
 void loop() {
-    llanta1.spin();
-    llanta2.spin();
+    driver1.spin();
+    driver2.spin();
 
-    llanta1.vesc_set_erpm(30);
-    llanta2.vesc_set_erpm(30);
+    driver1.vesc_set_erpm(30);
+    driver2.vesc_set_erpm(30);
 
     if (millis() - last_print_data > 1000) {
-        for (int i = 0; i < numLlantas; i++) {
+        for (int i = 0; i < numdrivers; i++) {
 
-            Serial.print("Llanta ");
+            Serial.print("driver ");
             Serial.print(i + 1);  // Print wheel number (1 or 2)
             Serial.println(" data:");
             
             Serial.print("rpm: ");
-            Serial.println(llantas[i]->erpm);
+            Serial.println(drivers[i]->erpm);
             Serial.print("voltage: ");
-            Serial.println(llantas[i]->inpVoltage);
+            Serial.println(drivers[i]->inpVoltage);
             Serial.print("dutyCycleNow: ");
-            Serial.println(llantas[i]->dutyCycleNow);
+            Serial.println(drivers[i]->dutyCycleNow);
             Serial.print("avgInputCurrent: ");
-            Serial.println(llantas[i]->avgInputCurrent);
+            Serial.println(drivers[i]->avgInputCurrent);
             Serial.print("avgMotorCurrent: ");
-            Serial.println(llantas[i]->avgMotorCurrent);
+            Serial.println(drivers[i]->avgMotorCurrent);
             Serial.print("tempFET: ");
-            Serial.println(llantas[i]->tempFET);
+            Serial.println(drivers[i]->tempFET);
             Serial.print("tempMotor: ");
-            Serial.println(llantas[i]->tempMotor);
+            Serial.println(drivers[i]->tempMotor);
             Serial.print("WattHours: ");
-            Serial.println(llantas[i]->WattHours);
+            Serial.println(drivers[i]->WattHours);
             Serial.println("..............................");
         }
         last_print_data = millis();
