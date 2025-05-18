@@ -38,6 +38,9 @@ This library has been tested with an ESP32-S3, in case your board has the CS pin
 
 Add this library in Arduino
 
+Added in the example a way to test the control of the motors via serial, with the following string: D1:{rpm};D2:{rpm}; (D1:40;D2:60;)
+WARNING: Make sure they are RPMs, not ERPMs, this code converts the RPMs to ERPMs and then send them via CAN.
+
 # Credits
 
 * Craig Gault - https://github.com/craigg96

@@ -2,6 +2,7 @@
 #include <SPI.h>
 #include "vesc_can_bus_arduino.h"
 
+// Constructor
 VescCAN::VescCAN(MCP_CAN& can, uint8_t devId) : CAN0(can), deviceId(devId) {
     dutyCycleNow = 0;
     avgMotorCurrent = 0;
@@ -16,7 +17,16 @@ VescCAN::VescCAN(MCP_CAN& can, uint8_t devId) : CAN0(can), deviceId(devId) {
 
 void VescCAN::spin() {
     get_frame();
-
+    // // Imprimir el ID y los datos recibidos para depuración
+  // Serial.print("Received CAN ID: 0x");
+  // Serial.println(rxId, HEX);
+  // Serial.print("Data: ");
+  // for (int i = 0; i < len; i++) {
+  //   Serial.print("0x");
+  //   Serial.print(rxBuf[i], HEX);
+  //   Serial.print(" ");
+  // }
+  // Serial.println();
     uint32_t dutyCycleId = 0x80000900 | (deviceId & 0xFF);
     uint32_t wattHoursId = 0x80000F00 | (deviceId & 0xFF);
     uint32_t tempId = 0x80001000      | (deviceId & 0xFF);
@@ -41,6 +51,32 @@ void VescCAN::spin() {
     if (rxId == voltageId) {
         char receivedByte[4];
         sprintf(receivedByte, "%02X%02X", rxBuf[4], rxBuf[5]);
+        inpVoltage = hex2int(receivedByte) * 0.1;
+    }
+}
+
+void VescCAN::processMessage(unsigned long id, unsigned char* data) {
+    uint32_t dutyCycleId = 0x80000900 | (deviceId & 0xFF);
+    uint32_t wattHoursId = 0x80000F00 | (deviceId & 0xFF);
+    uint32_t tempId      = 0x80001000 | (deviceId & 0xFF);
+    uint32_t voltageId   = 0x80001B00 | (deviceId & 0xFF);
+
+    if (id == dutyCycleId) {
+        dutyCycleNow = process_data_frame_vesc('D', data[6], data[7]);
+        avgMotorCurrent = process_data_frame_vesc('C', data[4], data[5]);
+        erpm = ((data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]) / 30;
+    } else if (id == wattHoursId) {
+        WattHours = ((data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]) * 0.01;
+    } else if (id == tempId) {
+        tempFET = process_data_frame_vesc('F', data[0], data[1]);
+        tempMotor = process_data_frame_vesc('T', data[2], data[3]);
+        avgInputCurrent = process_data_frame_vesc('I', data[4], data[5]);
+        if (tempMotor > 100.0) {
+            Serial.println("Advertencia: Temperatura del motor demasiado alta o sensor no conectado.");
+        }
+    } else if (id == voltageId) {
+        char receivedByte[4];
+        sprintf(receivedByte, "%02X%02X", data[4], data[5]);
         inpVoltage = hex2int(receivedByte) * 0.1;
     }
 }
