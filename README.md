@@ -31,7 +31,7 @@ CAN Baud Rate = CAN_BAUD_250K
 
 Place the .h and .cpp file in the same folder as the .ino file to use this library with no changes.
 
-Added in the example a way to test the tire control via serial, with the following string: D1:{rpm};D2:{rpm}; (D1:40;D2:60;)
+Added in the example a way to test the control of the motors via serial, with the following string: D1:{rpm};D2:{rpm}; (D1:40;D2:60;)
 WARNING: Make sure they are RPMs, not ERPMs, this code converts the RPMs to ERPMs and then send them via CAN.
 
 # Credits
