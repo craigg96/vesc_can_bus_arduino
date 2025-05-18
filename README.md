@@ -5,6 +5,8 @@
 This repo contains the CAN bus protocol for VESC that can be used with arduino and the MCP2515 driver library by Cory Fowler (see credits).
 The MCP2515 is the most common way to integrate can bus onto the arduino platform. The VESC platform is the gold standard for brushless motor control for skateboards and ebikes. This library allows you to use the can bus instead of UART (see solidgeek vescuart library) to communicate with the VESC which is more reliable and allows the single UART port on most arduinos to be free for debugging.  
 
+Added support for different VESC drivers through the same CAN, this has been tested by reading data from 2 drivers with an ESP32-S3.
+
 ## Realtime Data Messages
 |     Parameter     |
 |:-----------------:|
@@ -24,12 +26,17 @@ The MCP2515 is the most common way to integrate can bus onto the arduino platfor
 |      dutycycle    |
 |       current     |
 
-To use the library out of the box, the vesc tool must be configured as shown in images/vesc_tool_app_settings.png.
-VESC ID = 10
+To use the library out of the box, the vesc tool must be configured as shown in images/vesc_tool_app_settings.png, (you can set the ID of your choice, as long as the other driver has a different one).
+
+VESC ID = (the one you want)
+
 CAN STATUS_MESSAGE_MODE = CAN_STATUS_1_2_3_4_5
+
 CAN Baud Rate = CAN_BAUD_250K
 
-Place the .h and .cpp file in the same folder as the .ino file to use this library with no changes.
+This library has been tested with an ESP32-S3, in case your board has the CS pin on another pin modify the `MCP_CAN CAN0({required pin});` line, no need to modify the library.
+
+Add this library in Arduino
 
 Added in the example a way to test the control of the motors via serial, with the following string: D1:{rpm};D2:{rpm}; (D1:40;D2:60;)
 WARNING: Make sure they are RPMs, not ERPMs, this code converts the RPMs to ERPMs and then send them via CAN.
@@ -37,7 +44,7 @@ WARNING: Make sure they are RPMs, not ERPMs, this code converts the RPMs to ERPM
 # Credits
 
 * Craig Gault - https://github.com/craigg96
-* Sesgaro - https://github.com/Sesgaro
+* Sesgaro     - https://github.com/Sesgaro
 
 DEPENDENCIES
 

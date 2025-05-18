@@ -45,7 +45,7 @@ void VescCAN::spin() {
         tempMotor = process_data_frame_vesc('T', rxBuf[2], rxBuf[3]);
         avgInputCurrent = process_data_frame_vesc('I', rxBuf[4], rxBuf[5]);
         if (tempMotor > 100.0) {
-            Serial.println("Advertencia: Temperatura del motor demasiado alta o sensor no conectado.");
+            Serial.println("Warning: Motor temperature too high or sensor not connected.");
         }
     }
     if (rxId == voltageId) {
