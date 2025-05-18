@@ -22,6 +22,7 @@ public:
     float tempMotor;
     float avgInputCurrent;
     float inpVoltage;
+    void processMessage(unsigned long id, unsigned char* data);
 
     VescCAN(MCP_CAN& can, uint8_t devId);
 
